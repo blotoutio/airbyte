@@ -1,6 +1,8 @@
 build:
 	sudo apt-get -y update
 	sudo apt -y install openjdk-14-jdk
+	export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
+	export PATH=${JAVA_HOME}/bin:${PATH}
 	sudo apt-get -y install jq
 	sudo apt-get -y install cmake
 	sudo apt-get -y install unzip
@@ -17,8 +19,6 @@ build:
 	unzip -d /opt/gradle /tmp/gradle-*.zip
 	export GRADLE_HOME=/opt/gradle/gradle-6.7.1
 	export PATH=${GRADLE_HOME}/bin:${PATH}
-	export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
-	export PATH=${JAVA_HOME}/bin:${PATH}
 	CORE_ONLY=1 ./gradlew build
 	docker tag airbyte/webapp:dev blotout/airbyte-webapp:${image_tag}
 	docker tag airbyte/server:dev blotout/airbyte-server:${image_tag}
