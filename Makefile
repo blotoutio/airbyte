@@ -18,7 +18,7 @@ build:
 	export GRADLE_HOME=/opt/gradle/gradle-6.7.1
 	export PATH=${GRADLE_HOME}/bin:${PATH}
 	export JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64
-	export PATH=$JAVA_HOME/bin:$PATH
+	export PATH=${JAVA_HOME}/bin:${PATH}
 	CORE_ONLY=1 ./gradlew build
 	docker tag airbyte/webapp:dev blotout/airbyte-webapp:${image_tag}
 	docker tag airbyte/server:dev blotout/airbyte-server:${image_tag}
