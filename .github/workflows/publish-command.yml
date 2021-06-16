@@ -48,7 +48,7 @@ jobs:
         with:
           python-version: '3.7'
       - run: |
-          docker login -u airbytebot -p ${DOCKER_PASSWORD}
+          docker login -u ${DOCKERHUB_TOKEN} -p ${DOCKER_PASSWORD}
           ./tools/integrations/manage.sh publish airbyte-integrations/${{ github.event.inputs.connector }} ${{ github.event.inputs.run-tests }}
         name: publish ${{ github.event.inputs.connector }}
         id: publish
