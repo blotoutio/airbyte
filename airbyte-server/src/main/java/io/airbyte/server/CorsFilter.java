@@ -36,8 +36,9 @@ public class CorsFilter implements ContainerResponseFilter {
 
   public static final ImmutableMap<String, String> MAP = ImmutableMap.of(
       HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*",
-      HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "Origin, Content-Type, Accept, Content-Encoding",
-      HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+      HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "Origin, Content-Type, Accept, Content-Encoding, Authorization",
+      HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, DELETE, OPTIONS, HEAD",
+      HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
 
   @Override
   public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
