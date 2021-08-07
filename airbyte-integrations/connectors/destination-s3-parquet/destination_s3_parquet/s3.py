@@ -48,7 +48,6 @@ def create_client(config):
 @retry_pattern()
 def upload_file(filename, s3_client, bucket, s3_key,
                 encryption_type=None, encryption_key=None):
-
     if encryption_type is None or encryption_type.lower() == "none":
         # No encryption config (defaults to settings on the bucket):
         encryption_desc = ""
@@ -59,7 +58,7 @@ def upload_file(filename, s3_client, bucket, s3_key,
             if encryption_key:
                 encryption_desc = (
                     " using KMS encryption key ID '{}'"
-                    .format(encryption_key)
+                        .format(encryption_key)
                 )
                 encryption_args["SSEKMSKeyId"] = encryption_key
             else:
@@ -68,7 +67,7 @@ def upload_file(filename, s3_client, bucket, s3_key,
             raise NotImplementedError(
                 "Encryption type '{}' is not supported. "
                 "Expected: 'none' or 'KMS'"
-                .format(encryption_type)
+                    .format(encryption_type)
             )
     LOGGER.info("Uploading {} to bucket {} at {}{}".format(filename, bucket, s3_key, encryption_desc))
     s3_client.upload_file(filename, bucket, s3_key, ExtraArgs=encryption_args)
