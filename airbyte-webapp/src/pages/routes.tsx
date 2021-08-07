@@ -173,10 +173,6 @@ export const Routing: React.FC = () => {
       AnalyticsService.identify(workspace.customerId);
       tracker.setUserID(workspace.customerId);
     }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const authParam = urlParams.get("token") || "";
-    localStorage.setItem("token", authParam);
   }, [workspace]);
 
   const { formatMessage } = useIntl();
