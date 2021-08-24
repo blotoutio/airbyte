@@ -159,6 +159,7 @@ public class KubePodProcess extends Process {
         .endMetadata()
         .withNewSpec()
         .withRestartPolicy("Never")
+        .withTerminationGracePeriodSeconds(10l)
         .withContainers(commandFetcher)
         .endSpec()
         .build();
