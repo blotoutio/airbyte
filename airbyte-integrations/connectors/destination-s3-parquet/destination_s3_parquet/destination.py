@@ -321,5 +321,4 @@ class DestinationS3Parquet(Destination):
                               config.get('encryption_type'),
                               config.get('encryption_key'))
             filenames.remove((filename, stream_name))
-
         return state
