@@ -5,6 +5,9 @@ require_relative './mongodb_stream.rb'
 require_relative './mongodb_reader.rb'
 require_relative './mongodb_state.rb'
 
+require 'logger'
+logger = Logger.new(STDOUT)
+
 class MongodbSource
   def spec
     spec = JSON.parse(File.read(__dir__ + '/spec.json'))
@@ -76,6 +79,9 @@ class MongodbSource
                   elsif ["true", true].include?(@config.fetch("ssl", false))
                     uri += "&ssl=true"
                   end
+                  logger.debug(uri)
+                  AirbyteLogger.log(uri)
+                  AirbyteLogger.log("****************************")
                   @client = Mongo::Client.new(uri)
                   @client.logger.formatter = AirbyteLogger.logger_formatter
                   @client
