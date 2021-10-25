@@ -30,8 +30,28 @@ def jinja_call(command: str) -> str:
     return "{{ " + command + " }}"
 
 
+def remove_jinja(command: str) -> str:
+    return str(command).replace("{{ ", "").replace(" }}", "")
+
+
 def is_string(property_type) -> bool:
     return property_type == "string" or "string" in property_type
+
+
+def is_timestamp_with_time_zone(definition: dict) -> bool:
+    return (
+        is_string(definition["type"])
+        and ("format" in definition.keys())
+        and (definition["format"] == "date-time" or "date-time" in definition["format"])
+    )
+
+
+def is_date(definition: dict) -> bool:
+    return (
+        is_string(definition["type"])
+        and ("format" in definition.keys())
+        and (definition["format"] == "date" or "date" in definition["format"])
+    )
 
 
 def is_number(property_type) -> bool:
