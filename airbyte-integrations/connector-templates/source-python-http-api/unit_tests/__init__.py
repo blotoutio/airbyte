@@ -21,8 +21,3 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-
-
-from .source import Source{{properCase name}}
-
-__all__ = ["Source{{properCase name}}"]
