@@ -25,22 +25,24 @@ import { useApiHealthPoll } from "hooks/services/Health";
 import { WithPageAnalytics } from "./withPageAnalytics";
 
 export enum Routes {
-  Preferences = "/preferences",
-  Onboarding = "/onboarding",
+  Preferences = "/airbyte/preferences",
+  Onboarding = "/airbyte/onboarding",
 
-  Connections = "/connections",
-  Destination = "/destination",
-  Source = "/source",
-  Connection = "/connection",
+  Connections = "/airbyte/connections",
+  Destination = "/airbyte/destination",
+  Source = "/airbyte/source",
+  Connection = "/airbyte/connection",
   ConnectionNew = "/new-connection",
   SourceNew = "/new-source",
   DestinationNew = "/new-destination",
-  Settings = "/settings",
+  Settings = "/airbyte/settings",
+  SettingsDestination = "/destination",
+  SettingsSource = "/source",
   Configuration = "/configuration",
   Notifications = "/notifications",
   Metrics = "/metrics",
   Account = "/account",
-  Root = "/",
+  Root = "/airbyte/",
 }
 
 const MainViewRoutes = () => {

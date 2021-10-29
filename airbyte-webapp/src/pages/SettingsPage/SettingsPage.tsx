@@ -50,14 +50,14 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ pageConfig }) => {
           component: AccountPage,
         },
         {
-          path: `${Routes.Settings}${Routes.Source}`,
-          name: <FormattedMessage id="tables.sources" />,
+          path: `${Routes.Settings}${Routes.SettingsSource}`,
+          name: <FormattedMessage id="tables.SettingsSource" />,
           indicatorCount: countNewSourceVersion,
           component: SourcesPage,
         },
         {
-          path: `${Routes.Settings}${Routes.Destination}`,
-          name: <FormattedMessage id="tables.destinations" />,
+          path: `${Routes.Settings}${Routes.SettingsDestination}`,
+          name: <FormattedMessage id="tables.SettingsDestination" />,
           indicatorCount: countNewDestinationVersion,
           component: DestinationsPage,
         },

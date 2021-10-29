@@ -10,6 +10,21 @@ abstract class AirbyteRequestService {
     private middlewares: RequestMiddleware[] = []
   ) {}
 
+  fetch(
+    url: string,
+    body?: any,
+    options?: Partial<RequestInit>
+  ): Promise<Response> {
+    const token = localStorage.getItem("bo_token");
+    return AirbyteRequestService.fetch(url, body, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        ...(options?.headers ?? {}),
+      },
+    });
+  }
   /** Perform network request */
   public async fetch<T = Response>(
     url: string,
