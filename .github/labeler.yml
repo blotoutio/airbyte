@@ -8,6 +8,7 @@ area/core:
   - airbyte-scheduler/*
   - airbyte-scheduler/**/*
 
+
 area/protocol:
   - airbyte-protocol/*
   - airbyte-protocol/**/*
