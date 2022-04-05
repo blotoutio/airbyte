@@ -84,7 +84,7 @@ class DestinationS3Parquet(Destination):
     ) -> Iterable[AirbyteMessage]:
 
         for configured_stream in configured_catalog.streams:
-            LOGGER.info('stream name all' + configured_stream.stream.name)
+            LOGGER.info('stream name ' + configured_stream.stream.name)
 
         config = dict(config)
         s3_client = s3.create_client(config)
@@ -184,11 +184,11 @@ class DestinationS3Parquet(Destination):
             if record_unique_field and record_unique_field in df:
                 unique_ids_already_processed = read_temp_pickle()
                 df = df[~df[record_unique_field].isin(unique_ids_already_processed)]
-                LOGGER.info('df filtered size: {}'.format(df.shape))
+                # LOGGER.info('df filtered size: {}'.format(df.shape))
                 df = df.drop_duplicates()
                 #LOGGER.info('df after drop_duplicates size: {}'.format(df.shape))
                 # df = df.groupby(record_unique_field).first().reset_index()
-                LOGGER.info('df first record of each unique_id size: {}'.format(df.shape))
+                # LOGGER.info('df first record of each unique_id size: {}'.format(df.shape))
                 new_unique_ids = set(df[record_unique_field].unique())
                 #LOGGER.info('unique_ids_already_processed: {}, new_unique_ids: {}'.format(
                     #len(unique_ids_already_processed), len(new_unique_ids)))
