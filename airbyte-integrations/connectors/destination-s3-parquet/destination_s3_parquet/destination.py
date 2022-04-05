@@ -21,32 +21,25 @@
 # SOFTWARE.
 
 
-from typing import Mapping, Any, Iterable, Dict, List, Generator
-import traceback
-from airbyte_cdk import AirbyteLogger
-from airbyte_cdk.destinations import Destination
-from airbyte_cdk.models import (
-    AirbyteConnectionStatus,
-    ConfiguredAirbyteCatalog,
-    AirbyteMessage,
-    Status,
-    DestinationSyncMode,
-    Type,
-)
 import decimal
 import json
+import logging
 import os
 import pickle
 import sys
 import tempfile
+import traceback
 from datetime import datetime
 from os import walk
+from typing import Any, Dict, Generator, Iterable, List, Mapping
+
 import pandas as pd
 import singer
+from airbyte_cdk import AirbyteLogger
+from airbyte_cdk.destinations import Destination
+from airbyte_cdk.models import AirbyteConnectionStatus, AirbyteMessage, ConfiguredAirbyteCatalog, DestinationSyncMode, Status, Type
+from destination_s3_parquet import s3, utils
 from jsonschema import Draft4Validator, FormatChecker
-from destination_s3_parquet import s3
-from destination_s3_parquet import utils
-import logging
 
 LOGGER = logging.getLogger()
 filenames = []
@@ -309,18 +302,19 @@ class DestinationS3Parquet(Destination):
             f.write(json.dumps(flattened_record, cls=DecimalEncoder))
             f.write('\n')
 
-        file_size = os.path.getsize(filename) if os.path.isfile(filename) else 0
-        file_size_mb = round(file_size / (1024 * 1024), 3)
-        #LOGGER.info(" persist_messages file_size  = {}" + str(file_size_mb))
-        if file_size_mb > max_file_size_mb:
-            LOGGER.info('file_size: {} MB, filename: {}'.format(round(file_size >> 20, 2), filename))
-            self.upload_to_s3(s3_client, config.get("s3_bucket_name"), config.get("s3_bucket_path"), filename,
-                              stream_name,
-                              config.get('field_to_partition_by_time'),
-                              config.get('record_unique_field'),
-                              config.get("compression"),
-                              config.get('encryption_type'),
-                              config.get('encryption_key'))
-            filenames.remove((filename, stream_name))
+        # file_size = os.path.getsize(filename) if os.path.isfile(filename) else 0
+        # file_size_mb = round(file_size / (1024 * 1024), 3)
+        # LOGGER.info(" persist_messages file_size  = {}" + str(file_size_mb))
+        # if file_size_mb > max_file_size_mb:
+            # LOGGER.info('file_size: {} MB, filename: {}'.format(round(file_size >> 20, 2), filename))
+        self.upload_to_s3(s3_client, config.get("s3_bucket_name"), config.get("s3_bucket_path"), filename,
+            stream_name,
+            config.get('field_to_partition_by_time'),
+            config.get('record_unique_field'),
+            config.get("compression"),
+            config.get('encryption_type'),
+            config.get('encryption_key'))
+        
+        filenames.remove((filename, stream_name))
 
         return state
