@@ -8,7 +8,6 @@ ENV AIRBYTE_ENTRYPOINT "python /airbyte/integration_code/main.py"
 WORKDIR /airbyte/integration_code
 COPY setup.py ./
 RUN pip install .
-RUN pip "google-ads==16.0.0"
 COPY source_google_ads ./source_google_ads
 COPY main.py ./
 
