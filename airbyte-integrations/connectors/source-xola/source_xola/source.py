@@ -14,6 +14,7 @@ import time
 import logging
 import traceback
 import re
+import pytz
 
 LOGGER = logging.getLogger()
 
@@ -174,6 +175,10 @@ class Orders(IncrementalXolaStream):
             
         params['seller'] = self.seller_id
         return params
+
+    def parse_datetime_to_pst(self, datetime_str):
+        datetime_object = datetime.fromisoformat(datetime_str)
+        return datetime_object.astimezone(pytz.timezone('US/Pacific')).strftime("%Y-%m-%dT%H:%M:%SZ")
     
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         """
@@ -191,9 +196,12 @@ class Orders(IncrementalXolaStream):
                     resp["tags"] = ",".join([tag['id'] for tag in data["tags"]])
                 else:
                     resp["tags"] = ""
+
+                if "items" in data.keys():
+                    resp["paymentMethod"] = ",".join([item['paymentMethod'] for item in data["items"]])
             
                 resp["order_id"] = data["id"]
-                if "createdAt" in data.keys(): resp["createdAt"] = data["createdAt"]
+                if "createdAt" in data.keys(): resp["createdAt"] = self.parse_datetime_to_pst(data["createdAt"])
                 if "customerName" in data.keys(): resp["customerName"] = data["customerName"]
                 if "customerEmail" in data.keys(): resp["customerEmail"] = data["customerEmail"]
                 
@@ -215,7 +223,7 @@ class Orders(IncrementalXolaStream):
                 #if "quantity" in data.keys(): resp["quantity"] = data["quantity"]
                 if "event" in data.keys(): resp["event"] = data["event"]
                 if "amount" in data.keys(): resp["amount"] = data["amount"]
-                if "updatedAt" in data.keys(): resp["updatedAt"] = data["updatedAt"]
+                if "updatedAt" in data.keys(): resp["updatedAt"] = self.parse_datetime_to_pst(data["updatedAt"])
                 if "type" in data.keys(): resp["type"] = data["type"]
                 
                 modified_response.append(resp)

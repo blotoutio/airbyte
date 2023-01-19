@@ -25,6 +25,9 @@
          "travelers":{
             "type":["null","string"]
          },
+        "paymentMethod":{
+          "type":["null","string"]
+        },
          "source":{
             "type":["null","string"]
          },
