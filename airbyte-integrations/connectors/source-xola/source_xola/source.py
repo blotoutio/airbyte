@@ -454,7 +454,7 @@ class Customers(IncrementalXolaStream):
 class Transactions(IncrementalXolaStream):
     primary_key = "id"
     seller_id = None
-    cursor_field = "updatedAt"
+    cursor_field = "createdAt"
 
     def __init__(self, seller_id: str, x_api_key: str, **kwargs):
         super().__init__(x_api_key, **kwargs)
