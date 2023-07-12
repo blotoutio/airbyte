@@ -26,7 +26,7 @@ LOGGER = logging.getLogger()
 class ShopifyStream(HttpStream, ABC):
 
     # Latest Stable Release
-    api_version = "2021-07"
+    api_version = "2022-10"
     # Page size
     limit = 250
     # Define primary key as sort key for full_refresh, or very first sync for incremental_refresh
