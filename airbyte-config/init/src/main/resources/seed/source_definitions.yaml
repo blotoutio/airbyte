@@ -143,7 +143,7 @@
   sourceType: api
 - name: Facebook Pages
   sourceDefinitionId: 010eb12f-837b-4685-892d-0a39f76a98f5
-  dockerRepository: airbyte/source-facebook-pages
+  dockerRepository: blotout/source-facebook-pages
   dockerImageTag: 0.2.0
   documentationUrl: https://hub.docker.com/r/airbyte/source-facebook-pages
   icon: facebook.svg
