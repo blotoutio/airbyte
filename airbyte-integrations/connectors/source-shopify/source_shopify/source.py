@@ -431,6 +431,18 @@ class InventoryLevels(ChildSubstream):
             records_stream,
         )
 
+class InventoryItems(ChildSubstream):
+
+    parent_stream_class: object = Products
+    slice_key = "id"
+    record_field_name = "variants"
+
+    data_field = "inventory_items"
+
+    def path(self, stream_slice: Mapping[str, Any] = None, **kwargs) -> str:
+        ids = ",".join(str(x["inventory_item_id"]) for x in stream_slice[self.slice_key])
+        return f"inventory_items.json?ids={ids}"
+
 
 class FulfillmentOrders(ChildSubstream):
 
@@ -505,6 +517,7 @@ class SourceShopify(AbstractSource):
             PriceRules(config),
             DiscountCodes(config),
             Locations(config),
+            InventoryItems(config),
             InventoryLevels(config),
             FulfillmentOrders(config),
             Fulfillments(config),
