@@ -188,9 +188,6 @@
     "campaign.target_cpa.target_cpa_micros": {
       "type": ["null", "integer"]
     },
-    "campaign.target_cpm": {
-      "type": ["null", "string"]
-    },
     "campaign.target_impression_share.cpc_bid_ceiling_micros": {
       "type": ["null", "integer"]
     },
