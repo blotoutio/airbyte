@@ -4,7 +4,6 @@
 
 
 from abc import ABC, abstractmethod
-from functools import cached_property
 from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Tuple, Union
 from urllib.parse import parse_qsl, urlparse
 
@@ -13,14 +12,11 @@ from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http import HttpStream
-from requests.exceptions import RequestException
 
 from .auth import ShopifyAuthenticator
-from .graphql import get_query_products
 from .transform import DataTypeEnforcer
-from .utils import SCOPES_MAPPING, ApiTypeEnum
+from .utils import SCOPES_MAPPING
 from .utils import EagerlyCachedStreamState as stream_state_cache
-from .utils import ErrorAccessScopes
 from .utils import ShopifyRateLimiter as limiter
 from datetime import datetime
 from datetime import timedelta
@@ -76,43 +72,29 @@ class ShopifyStream(HttpStream, ABC):
     @limiter.balance_rate_limit()
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         if response.status_code is requests.codes.OK:
-            try:
-                json_response = response.json()
-                records = json_response.get(self.data_field, []) if self.data_field is not None else json_response
-                yield from self.produce_records(records)
-            except RequestException as e:
-                self.logger.warn(f"Unexpected error in `parse_ersponse`: {e}, the actual response data: {response.text}")
-                yield {}
-
-    def produce_records(self, records: Union[Iterable[Mapping[str, Any]], Mapping[str, Any]] = None) -> Iterable[Mapping[str, Any]]:
-        # transform method was implemented according to issue 4841
-        # Shopify API returns price fields as a string and it should be converted to number
-        # this solution designed to convert string into number, but in future can be modified for general purpose
-        if isinstance(records, dict):
-            # for cases when we have a single record as dict
-            # add shop_url to the record to make querying easy
-            records["shop_url"] = self.config["shop"]
-            yield self._transformer.transform(records)
-        else:
-            # for other cases
-            for record in records:
+            json_response = response.json()
+            records = json_response.get(self.data_field, []) if self.data_field is not None else json_response
+            # transform method was implemented according to issue 4841
+            # Shopify API returns price fields as a string and it should be converted to number
+            # this solution designed to convert string into number, but in future can be modified for general purpose
+            if isinstance(records, dict):
+                # for cases when we have a single record as dict
                 # add shop_url to the record to make querying easy
-                record["shop_url"] = self.config["shop"]
-                yield self._transformer.transform(record)
+                records["shop_url"] = self.config["shop"]
+                yield self._transformer.transform(records)
+            else:
+                # for other cases
+                for record in records:
+                    # add shop_url to the record to make querying easy
+                    record["shop_url"] = self.config["shop"]
+                    yield self._transformer.transform(record)
 
     def should_retry(self, response: requests.Response) -> bool:
-        error_mapping = {
-            404: f"Stream `{self.name}` - not available or missing, skipping...",
-            403: f"Stream `{self.name}` - insufficient permissions, skipping...",
-            # extend the mapping with more handable errors, if needed.
-        }
-        status = response.status_code
-        if status in error_mapping.keys():
+        if response.status_code == 404:
+            self.logger.warn(f"Stream `{self.name}` is not available, skipping...")
             setattr(self, "raise_on_http_errors", False)
-            self.logger.warn(error_mapping.get(status))
             return False
-        else:
-            return super().should_retry(response)
+        return super().should_retry(response)
 
     @property
     @abstractmethod
@@ -137,9 +119,12 @@ class IncrementalShopifyStream(ShopifyStream, ABC):
         return 0 if self.cursor_field == "id" else ""
 
     def get_updated_state(self, current_stream_state: MutableMapping[str, Any], latest_record: Mapping[str, Any]) -> Mapping[str, Any]:
-        last_record_value = latest_record.get(self.cursor_field) or self.default_state_comparison_value
-        current_state_value = current_stream_state.get(self.cursor_field) or self.default_state_comparison_value
-        return {self.cursor_field: max(last_record_value, current_state_value)}
+        return {
+            self.cursor_field: max(
+                latest_record.get(self.cursor_field, self.default_state_comparison_value),
+                current_stream_state.get(self.cursor_field, self.default_state_comparison_value),
+            )
+        }
 
     @stream_state_cache.cache_stream_state
     def request_params(self, stream_state: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None, **kwargs):
@@ -160,8 +145,7 @@ class IncrementalShopifyStream(ShopifyStream, ABC):
             state_value = stream_state.get(self.cursor_field)
             for record in records_slice:
                 if self.cursor_field in record:
-                    record_value = record.get(self.cursor_field, self.default_state_comparison_value)
-                    logging.error("logs",record_value,state_value,stream_state,record,self.name)   
+                    record_value = record.get(self.cursor_field, self.default_state_comparison_value)  
                     if record_value:
                         if record_value >= state_value:
                             yield record
@@ -204,7 +188,7 @@ class ShopifySubstream(IncrementalShopifyStream):
     nested_substream = None
     nested_substream_list_field_id = None
 
-    @cached_property
+    @property
     def parent_stream(self) -> object:
         """
         Returns the instance of parent stream, if the substream has a `parent_stream_class` dependency.

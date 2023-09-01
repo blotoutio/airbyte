@@ -5,11 +5,12 @@
 
 from setuptools import find_packages, setup
 
-MAIN_REQUIREMENTS = ["airbyte-cdk", "sgqlc~=16.0"]
+MAIN_REQUIREMENTS = [
+    "airbyte-cdk",
+]
 
 TEST_REQUIREMENTS = [
-    "pytest",
-    "pytest-mock",
+    "pytest~=6.1",
     "requests-mock",
     "source-acceptance-test",
 ]
