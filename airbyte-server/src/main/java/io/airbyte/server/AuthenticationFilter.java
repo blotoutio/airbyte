@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.airbyte.server.enums.EdgeTagClient;
 
 public class AuthenticationFilter implements ContainerRequestFilter {
 
@@ -23,7 +24,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-
         if (!"v1/health".equalsIgnoreCase(requestContext.getUriInfo().getPath())) {
             // Get the Authorization header from the request
             String authorizationHeader =
@@ -31,6 +31,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             // Extract the token from the Authorization header
             String token = authorizationHeader
                     .substring(AUTHENTICATION_SCHEME.length()).trim();
+
             // Validate the Authorization header
             if (requestContext.getMethod().equalsIgnoreCase("OPTIONS")) {
                 requestContext.abortWith(Response.ok().build());
@@ -96,8 +97,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private boolean isEdgeTagBasedAuthentication(String originHeader) {
-        return originHeader != null && originHeader.toLowerCase()
-                .equalsIgnoreCase(EDGETAG_ORIGIN);
+        return originHeader != null &&
+                EdgeTagClient.getEdgeTagOrigins().contains(originHeader);
     }
 
     private void abortWithUnauthorized(ContainerRequestContext requestContext) {
