@@ -1,6 +1,6 @@
 # See [Source Acceptance Tests](https://docs.airbyte.io/connector-development/testing-connectors/source-acceptance-tests-reference)
 # for more information about how to configure these tests
-connector_image: airbyte/source-facebook-pages:dev
+connector_image: blotout/source-facebook-pages:dev
 tests:
   spec:
     - spec_path: "source_facebook_pages/spec.json"
