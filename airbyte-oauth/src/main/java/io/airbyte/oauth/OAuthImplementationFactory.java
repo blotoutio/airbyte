@@ -35,7 +35,6 @@ public class OAuthImplementationFactory {
   public OAuthImplementationFactory(final ConfigRepository configRepository, final HttpClient httpClient) {
     OAUTH_FLOW_MAPPING = ImmutableMap.<String, OAuthFlowImplementation>builder()
         .put("airbyte/source-asana", new AsanaOAuthFlow(configRepository, httpClient))
-        .put("airbyte/source-facebook-marketing", new FacebookMarketingOAuthFlow(configRepository, httpClient))
         .put("airbyte/source-facebook-pages", new FacebookPagesOAuthFlow(configRepository, httpClient))
         .put("airbyte/source-github", new GithubOAuthFlow(configRepository, httpClient))
         .put("airbyte/source-google-ads", new GoogleAdsOAuthFlow(configRepository, httpClient))
