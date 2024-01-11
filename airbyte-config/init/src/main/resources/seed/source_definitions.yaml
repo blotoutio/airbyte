@@ -604,7 +604,7 @@
 - name: WooCommerce
   sourceDefinitionId: b3c1ecb8-f0de-11eb-9a03-0242ac130003
   dockerRepository: airbyte/source-woocommerce
-  dockerImageTag: 0.2.0
+  dockerImageTag: 0.2.3
   documentationUrl: https://docs.airbyte.com/integrations/sources/woocommerce
   icon: woocommerce.svg
   sourceType: api
