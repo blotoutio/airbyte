@@ -1,5 +1,5 @@
 {
-  "sourceDefinitionId": "e7778cfc-e97c-4458-9ecb-b4f2bba8946c",
+  "sourceDefinitionId": "e7778cfc-e97c-4458-9ecb-b4f2bba8946d",
   "name": "Facebook Marketing",
   "dockerRepository": "blotout/source-facebook-marketing",
   "dockerImageTag": "0.1.1",
