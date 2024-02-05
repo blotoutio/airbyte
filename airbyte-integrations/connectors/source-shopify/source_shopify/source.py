@@ -26,7 +26,7 @@ LOGGER = logging.getLogger()
 class ShopifyStream(HttpStream, ABC):
 
     # Latest Stable Release
-    api_version = "2022-10"
+    api_version = "2023-07"
     # Page size
     limit = 250
     # Define primary key as sort key for full_refresh, or very first sync for incremental_refresh
@@ -468,7 +468,7 @@ class SourceShopify(AbstractSource):
         Testing connection availability for the connector.
         """
         auth = ShopifyAuthenticator(config).get_auth_header()
-        api_version = "2021-07"  # Latest Stable Release
+        api_version = "2023-07"  # Latest Stable Release
         url = f"https://{config['shop']}.myshopify.com/admin/api/{api_version}/shop.json"
 
         try:
