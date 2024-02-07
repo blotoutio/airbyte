@@ -62,7 +62,6 @@ public class MigrationV0_17_0 extends BaseMigration implements Migration {
       "airbyte/source-google-sheets",
       "airbyte/source-mysql",
       "airbyte/source-salesforce-singer",
-      "blotout/source-facebook-marketing",
       "airbyte/source-stripe-singer",
       "airbyte/source-mailchimp",
       "airbyte/source-googleanalytics-singer",
