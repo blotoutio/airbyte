@@ -18,7 +18,6 @@ import io.airbyte.oauth.flows.SlackOAuthFlow;
 import io.airbyte.oauth.flows.SnapchatMarketingOAuthFlow;
 import io.airbyte.oauth.flows.SurveymonkeyOAuthFlow;
 import io.airbyte.oauth.flows.TrelloOAuthFlow;
-import io.airbyte.oauth.flows.facebook.FacebookMarketingOAuthFlow;
 import io.airbyte.oauth.flows.facebook.FacebookPagesOAuthFlow;
 import io.airbyte.oauth.flows.facebook.InstagramOAuthFlow;
 import io.airbyte.oauth.flows.google.GoogleAdsOAuthFlow;
