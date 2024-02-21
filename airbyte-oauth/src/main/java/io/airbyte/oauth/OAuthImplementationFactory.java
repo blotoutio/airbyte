@@ -18,7 +18,6 @@ import io.airbyte.oauth.flows.SlackOAuthFlow;
 import io.airbyte.oauth.flows.SnapchatMarketingOAuthFlow;
 import io.airbyte.oauth.flows.SurveymonkeyOAuthFlow;
 import io.airbyte.oauth.flows.TrelloOAuthFlow;
-import io.airbyte.oauth.flows.facebook.FacebookMarketingOAuthFlow;
 import io.airbyte.oauth.flows.facebook.FacebookPagesOAuthFlow;
 import io.airbyte.oauth.flows.facebook.InstagramOAuthFlow;
 import io.airbyte.oauth.flows.google.GoogleAdsOAuthFlow;
@@ -35,7 +34,6 @@ public class OAuthImplementationFactory {
   public OAuthImplementationFactory(final ConfigRepository configRepository, final HttpClient httpClient) {
     OAUTH_FLOW_MAPPING = ImmutableMap.<String, OAuthFlowImplementation>builder()
         .put("airbyte/source-asana", new AsanaOAuthFlow(configRepository, httpClient))
-        .put("airbyte/source-facebook-marketing", new FacebookMarketingOAuthFlow(configRepository, httpClient))
         .put("airbyte/source-facebook-pages", new FacebookPagesOAuthFlow(configRepository, httpClient))
         .put("airbyte/source-github", new GithubOAuthFlow(configRepository, httpClient))
         .put("airbyte/source-google-ads", new GoogleAdsOAuthFlow(configRepository, httpClient))
