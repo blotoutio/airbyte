@@ -135,9 +135,9 @@
   icon: exchangeratesapi.svg
   sourceType: api
 - name: Facebook Marketing
-  sourceDefinitionId: dfd88b22-b603-4c3d-aad7-3701784586b1
+  sourceDefinitionId: e7778cfc-e97c-4458-9ecb-b4f2bba8946c
   dockerRepository: blotout/source-facebook-marketing
-  dockerImageTag: 0.1.2
+  dockerImageTag: 0.1.6
   documentationUrl: https://docs.airbyte.io/integrations/sources/facebook-marketing
   icon: facebook.svg
   sourceType: api
