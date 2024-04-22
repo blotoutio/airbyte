@@ -5955,6 +5955,7 @@
 - dockerImage: "airbyte/source-woocommerce:0.2.3"
   spec:
     documentationUrl: "https://docs.airbyte.com/integrations/sources/woocommerce"
+    changelogUrl: "https://docs.airbyte.com/integrations/sources/woocommerce"
     connectionSpecification:
       $schema: "http://json-schema.org/draft-07/schema#"
       title: "Woocommerce Spec"
