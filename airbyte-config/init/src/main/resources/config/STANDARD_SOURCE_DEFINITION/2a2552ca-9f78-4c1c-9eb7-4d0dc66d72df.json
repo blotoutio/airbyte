@@ -1,5 +1,5 @@
 {
-  "sourceDefinitionId": "b3c1ecb8-f0de-11eb-9a03-0242ac130003",
+  "sourceDefinitionId": "2a2552ca-9f78-4c1c-9eb7-4d0dc66d72df",
   "name": "Woocommerce",
   "dockerRepository": "airbyte/source-woocommerce",
   "dockerImageTag": "0.2.3",
