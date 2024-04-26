@@ -1,5 +1,5 @@
 {
-  "sourceDefinitionId": "2a2552ca-9f78-4c1c-9eb7-4d0dc66d70cs",
+  "sourceDefinitionId": "d6f9a7c2-815e-4b76-a10c-9f6d2a871e32",
   "name": "Woocommerce",
   "dockerRepository": "blotout/source-woocommerce",
   "dockerImageTag": "0.1.0",
