@@ -4,8 +4,8 @@ data:
       - ${domain}
   connectorSubtype: api
   connectorType: source
-  definitionId: 2a2552ca-9f78-4c1c-9eb7-4d0dc66d72df
-  dockerImageTag: 0.1.0
+  definitionId: d6f9a7c2-815e-4b76-a10c-9f6d2a871e32
+  dockerImageTag: 0.1.3
   dockerRepository: blotout/source-woocommerce
   githubIssueLabel: source-woocommerce
   icon: woocommerce.svg
