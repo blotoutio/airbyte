@@ -5,8 +5,8 @@ data:
   connectorSubtype: api
   connectorType: source
   definitionId: 2a2552ca-9f78-4c1c-9eb7-4d0dc66d72df
-  dockerImageTag: 0.2.3
-  dockerRepository: airbyte/source-woocommerce
+  dockerImageTag: 0.1.0
+  dockerRepository: blotout/source-woocommerce
   githubIssueLabel: source-woocommerce
   icon: woocommerce.svg
   license: MIT
