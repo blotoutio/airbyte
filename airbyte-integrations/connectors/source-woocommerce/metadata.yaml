@@ -1,0 +1,32 @@
+data:
+  ab_internal:
+    ql: 300
+    sl: 100
+  allowedHosts:
+    hosts:
+      - ${domain}
+  connectorSubtype: api
+  connectorType: source
+  definitionId: d6f9a7c2-815e-4b76-a10c-9f6d2a871e32
+  dockerImageTag: 0.1.4
+  dockerRepository: airbyte/source-woocommerce
+  documentationUrl: https://docs.airbyte.com/integrations/sources/woocommerce
+  githubIssueLabel: source-woocommerce
+  icon: woocommerce.svg
+  license: MIT
+  name: WooCommerce
+  remoteRegistries:
+    pypi:
+      enabled: true
+      packageName: airbyte-source-woocommerce
+  registries:
+    cloud:
+      enabled: true
+    oss:
+      enabled: true
+  releaseStage: beta
+  supportLevel: community
+  tags:
+    - language:python
+    - cdk:low-code
+metadataSpecVersion: "1.0"
