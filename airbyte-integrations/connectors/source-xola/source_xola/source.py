@@ -1,4 +1,3 @@
-import datetime
 from abc import ABC
 from typing import Any, Iterable, List, Mapping, MutableMapping, Optional, Tuple, Dict
 
@@ -174,7 +173,7 @@ class Orders(IncrementalXolaStream):
             
         params['seller'] = self.seller_id
         return params
-    
+
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         """
         TODO: Override this method to define how a response is parsed.
@@ -191,6 +190,9 @@ class Orders(IncrementalXolaStream):
                     resp["tags"] = ",".join([tag['id'] for tag in data["tags"]])
                 else:
                     resp["tags"] = ""
+
+                if "items" in data.keys():
+                    resp["paymentMethod"] = ",".join([item['paymentMethod'] for item in data["items"]])
             
                 resp["order_id"] = data["id"]
                 if "createdAt" in data.keys(): resp["createdAt"] = data["createdAt"]
@@ -211,8 +213,7 @@ class Orders(IncrementalXolaStream):
                         resp["createdBy"] = data["createdBy"]
                 else:
                     resp["createdBy"] = ""
-                
-                #if "quantity" in data.keys(): resp["quantity"] = data["quantity"]
+
                 if "event" in data.keys(): resp["event"] = data["event"]
                 if "amount" in data.keys(): resp["amount"] = data["amount"]
                 if "updatedAt" in data.keys(): resp["updatedAt"] = data["updatedAt"]
@@ -453,7 +454,7 @@ class Customers(IncrementalXolaStream):
 class Transactions(IncrementalXolaStream):
     primary_key = "id"
     seller_id = None
-    cursor_field = "updatedAt"
+    cursor_field = "createdAt"
 
     def __init__(self, seller_id: str, x_api_key: str, **kwargs):
         super().__init__(x_api_key, **kwargs)
