@@ -40,6 +40,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             // Validate origin based authentication
             String originHeader =
                     requestContext.getHeaderString("origin");
+            LOGGER.info("originHeader" + originHeader);
+            LOGGER.info("token" + token);
             if (isEdgeTagBasedAuthentication(originHeader)) {
                 try {
                     if (!validateEdgeBasedToken(originHeader, token)) {
@@ -97,6 +99,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private boolean isEdgeTagBasedAuthentication(String originHeader) {
+        LOGGER.info("inside isEdgeTagBasedAuthentication");
         return originHeader != null &&
                 EdgeTagClient.getEdgeTagOrigins().contains(originHeader);
     }
