@@ -2,7 +2,7 @@
   "sourceDefinitionId": "d6f9a7c2-815e-4b76-a10c-9f6d2a871e32",
   "name": "Woocommerce",
   "dockerRepository": "blotout/source-woocommerce",
-  "dockerImageTag": "0.0.1",
+  "dockerImageTag": "0.0.2",
   "documentationUrl": "https://docs.airbyte.com/integrations/sources/woocommerce",
   "icon": "woocommerce.svg"
 }
