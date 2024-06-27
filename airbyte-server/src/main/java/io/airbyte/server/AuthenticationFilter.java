@@ -33,8 +33,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             String token = authorizationHeader
                     .substring(AUTHENTICATION_SCHEME.length()).trim();
             // Get Team ID from header
-            String teamId = requestContext.getHeaderString(TEAM_ID_HEADER);
-
+//            String teamId = requestContext.getHeaderString(TEAM_ID_HEADER);
+            String teamId = "test";
             // Validate the Authorization header
             if (requestContext.getMethod().equalsIgnoreCase("OPTIONS")) {
                 requestContext.abortWith(Response.ok().build());
