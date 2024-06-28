@@ -64,9 +64,9 @@ public class BlotoutAuthentication {
     }
 
     public boolean validateEdgeTagBasedAuthentication(String origin, String token, String teamId) throws IOException, InterruptedException {
-        var request = null;
+        HttpResponse response = null;
         if(teamId != null) {
-             request = HttpRequest
+            final var request = HttpRequest
                     .newBuilder(URI.create(configs.getBlotoutBaseUrl() + configs.getBlotoutAuthEndpoint()))
                     .timeout(Duration.ofSeconds(120))
                     .header("Content-Type", "application/json") // connect type
@@ -74,16 +74,17 @@ public class BlotoutAuthentication {
                     .header("token", token) // validate token
                     .header("Team-Id", teamId)
                     .build();
+            response = httpClient.send(request, BodyHandlers.ofString());
         }else{
-             request = HttpRequest
+           final var request = HttpRequest
                     .newBuilder(URI.create(configs.getBlotoutBaseUrl() + configs.getBlotoutAuthEndpoint()))
                     .timeout(Duration.ofSeconds(120))
                     .header("Content-Type", "application/json") // connect type
                     .header("origin", origin) // validate edgetag origin
                     .header("token", token) // validate token
                     .build();
+            HttpResponse response = httpClient.send(request, BodyHandlers.ofString());
         }
-        HttpResponse response = httpClient.send(request, BodyHandlers.ofString());
         LOGGER.info(" response " + response.body());
         if (response.statusCode() == 200) {
             return true;
