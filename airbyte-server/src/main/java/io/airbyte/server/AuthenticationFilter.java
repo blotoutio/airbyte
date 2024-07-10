@@ -3,7 +3,6 @@ package io.airbyte.server;
 import io.airbyte.server.services.BlotoutAuthentication;
 
 import java.io.IOException;
-import javax.annotation.security.PermitAll;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
@@ -18,6 +17,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     private static final String REALM = "Bearer <BLOTOUT_TOKEN>";
     private static final String AUTHENTICATION_SCHEME = "Bearer";
     private static final String EDGETAG_ORIGIN = "https://api.edgetag.io";
+    private static final String TEAM_ID_HEADER = "Team-Id";
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerApp.class);
 
     private final BlotoutAuthentication blotoutAuthentication = new BlotoutAuthentication();
@@ -40,16 +40,18 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             // Validate origin based authentication
             String originHeader =
                     requestContext.getHeaderString("origin");
+            String teamId =
+                    requestContext.getHeaderString(TEAM_ID_HEADER);
             if (isEdgeTagBasedAuthentication(originHeader)) {
                 try {
-                    if (!validateEdgeBasedToken(originHeader, token)) {
+                    if (!validateEdgeBasedToken(originHeader, token, teamId)) {
                         abortWithUnauthorized(requestContext);
                         LOGGER.error(" return from validateEdgeBasedToken ");
                         return;
                     }
                 } catch (Exception e) {
                     try {
-                        if (!validateEdgeBasedToken(originHeader, token)) {
+                        if (!validateEdgeBasedToken(originHeader, token, teamId)) {
                             abortWithUnauthorized(requestContext);
                             LOGGER.error(" return from validateEdgeBasedToken ");
                             return;
@@ -116,8 +118,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         return blotoutAuthentication.validateToken(token);
     }
 
-    private boolean validateEdgeBasedToken(String origin, String token) throws Exception {
-        return blotoutAuthentication.validateEdgeTagBasedAuthentication(origin, token);
+    private boolean validateEdgeBasedToken(String origin, String token,String teamId) throws Exception {
+        return blotoutAuthentication.validateEdgeTagBasedAuthentication(origin, token, teamId);
     }
 
 }

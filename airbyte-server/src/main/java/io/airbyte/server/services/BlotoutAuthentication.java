@@ -63,15 +63,28 @@ public class BlotoutAuthentication {
         }
     }
 
-    public boolean validateEdgeTagBasedAuthentication(String origin, String token) throws IOException, InterruptedException {
-        final var request = HttpRequest
-                .newBuilder(URI.create(configs.getBlotoutBaseUrl() + configs.getBlotoutAuthEndpoint()))
-                .timeout(Duration.ofSeconds(120))
-                .header("Content-Type", "application/json") // connect type
-                .header("origin", origin) // validate edgetag origin
-                .header("token", token) // validate token
-                .build();
-        HttpResponse response = httpClient.send(request, BodyHandlers.ofString());
+    public boolean validateEdgeTagBasedAuthentication(String origin, String token, String teamId) throws IOException, InterruptedException {
+        HttpResponse response = null;
+        if(teamId != null) {
+            final var request = HttpRequest
+                    .newBuilder(URI.create(configs.getBlotoutBaseUrl() + configs.getBlotoutAuthEndpoint()))
+                    .timeout(Duration.ofSeconds(120))
+                    .header("Content-Type", "application/json") // connect type
+                    .header("origin", origin) // validate edgetag origin
+                    .header("token", token) // validate token
+                    .header("Team-Id", teamId)
+                    .build();
+            response = httpClient.send(request, BodyHandlers.ofString());
+        }else{
+           final var request = HttpRequest
+                    .newBuilder(URI.create(configs.getBlotoutBaseUrl() + configs.getBlotoutAuthEndpoint()))
+                    .timeout(Duration.ofSeconds(120))
+                    .header("Content-Type", "application/json") // connect type
+                    .header("origin", origin) // validate edgetag origin
+                    .header("token", token) // validate token
+                    .build();
+           response = httpClient.send(request, BodyHandlers.ofString());
+        }
         LOGGER.info(" response " + response.body());
         if (response.statusCode() == 200) {
             return true;
