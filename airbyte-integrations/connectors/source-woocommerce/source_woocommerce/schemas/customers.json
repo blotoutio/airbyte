@@ -37,10 +37,10 @@
       "type": ["null", "string"]
     },
     "billing": {
-      "$ref": "billing.json"
+      "$ref": "order_billing.json"
     },
     "shipping": {
-      "$ref": "shipping.json"
+      "$ref": "order_shipping.json"
     },
     "is_paying_customer": {
       "type": ["null", "boolean"]
@@ -53,6 +53,9 @@
     },
     "_links": {
       "$ref": "_links.json"
+    },
+    "shop_url": {
+      "type": ["null", "string"]
     }
   }
 }

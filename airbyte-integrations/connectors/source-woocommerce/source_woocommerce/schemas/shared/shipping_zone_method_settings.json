@@ -1,31 +1,28 @@
 {
   "type": ["null", "object"],
   "properties": {
-    "first_name": {
+    "id": {
+      "type": ["null", "integer"]
+    },
+    "label": {
       "type": ["null", "string"]
     },
-    "last_name": {
+    "description": {
       "type": ["null", "string"]
     },
-    "company": {
+    "type": {
       "type": ["null", "string"]
     },
-    "address_1": {
+    "value": {
       "type": ["null", "string"]
     },
-    "address_2": {
+    "default": {
       "type": ["null", "string"]
     },
-    "city": {
+    "tip": {
       "type": ["null", "string"]
     },
-    "state": {
-      "type": ["null", "string"]
-    },
-    "postcode": {
-      "type": ["null", "string"]
-    },
-    "country": {
+    "placeholder": {
       "type": ["null", "string"]
     }
   }
