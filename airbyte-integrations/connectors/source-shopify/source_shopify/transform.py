@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Airbyte, Inc., all rights reserved.
+# Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
 from decimal import Decimal
@@ -41,6 +41,9 @@ class DataTypeEnforcer:
             type(None): [
                 "null",
             ],
+            # overflow, when we need to read nested entity from the parent record,
+            # that has been already transformed.
+            Decimal: ["number"],
         }
         return json_types.get(value_type)
 
@@ -62,7 +65,11 @@ class DataTypeEnforcer:
 
     @staticmethod
     def _transform_number(value: Any):
-        return Decimal(value)
+        return float(Decimal(value))
+
+    @staticmethod
+    def _transform_string(value: Any):
+        return str(value)
 
     def _transform_array(self, array: List[Any], item_properties: Mapping[str, Any]):
         # iterate over items in array, compare schema types and convert if necessary.
@@ -92,6 +99,8 @@ class DataTypeEnforcer:
             if not any(field_json_type in schema_types for field_json_type in field_json_types):
                 if schema_type == "number":
                     return self._transform_number(field)
+                if schema_type == "string":
+                    return self._transform_string(field)
             if schema_type == "object":
                 properties = schema.get("properties", {})
                 return self._transform_object(field, properties)
