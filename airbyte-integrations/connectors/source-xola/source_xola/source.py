@@ -212,7 +212,6 @@ class Orders(IncrementalXolaStream):
                 else:
                     resp["createdBy"] = ""
                 
-                #if "quantity" in data.keys(): resp["quantity"] = data["quantity"]
                 if "event" in data.keys(): resp["event"] = data["event"]
                 if "amount" in data.keys(): resp["amount"] = data["amount"]
                 if "updatedAt" in data.keys(): resp["updatedAt"] = data["updatedAt"]
