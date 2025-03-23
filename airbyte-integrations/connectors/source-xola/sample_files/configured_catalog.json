@@ -22,6 +22,19 @@
                      }
                   }
                },
+              "items":{
+                "type":["null","array"],
+                "default":[],
+                "items":{
+                  "type":["null","object"],
+                  "properties":{
+                    "id":{
+                      "title":"paymentMethod",
+                      "type":["null","string"]
+                    }
+                  }
+                }
+              },
                "order_id":{
                   "type":["null","string"]
                },
